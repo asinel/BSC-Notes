@@ -26,9 +26,17 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
-
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    flavorDimensions "api"
+    productFlavors {
+        bsc {
+            dimension "api"
+        }
+        mock {
+            dimension "api"
+        }
     }
 }
 

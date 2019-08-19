@@ -1,7 +1,9 @@
 package com.sinelnikov.bsc.di
 
+import com.sinelnikov.bsc.BuildConfig
 import com.sinelnikov.bsc.model.NoteRepository
 import com.sinelnikov.bsc.model.NoteService
+import com.sinelnikov.bsc.model.NoteServiceImpl
 import com.sinelnikov.bsc.ui.note.NoteViewModel
 import com.sinelnikov.bsc.ui.notes.NotesViewModel
 import okhttp3.OkHttpClient
@@ -35,6 +37,12 @@ private fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrof
         .build()
 }
 
-private fun provideNoteService(retrofit: Retrofit): NoteService = retrofit.create(NoteService::class.java)
+private fun provideNoteService(retrofit: Retrofit): NoteService {
+    return if ("mock".equals(BuildConfig.FLAVOR)) {
+        NoteServiceImpl()
+    } else {
+        retrofit.create(NoteService::class.java)
+    }
+}
 
 private fun provideNoteRepository(noteService: NoteService): NoteRepository = NoteRepository(noteService)
