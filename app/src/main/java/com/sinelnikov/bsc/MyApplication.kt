@@ -13,6 +13,7 @@ class MyApplication : Application() {
         startKoin {
             androidContext(this@MyApplication)
             modules(listOf(networkModule, appModule))
+            fileProperties()
         }
     }
 }

@@ -1,8 +1,26 @@
 package com.sinelnikov.bsc.model
 
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 class NoteRepository(private val noteService: NoteService) {
 
-    suspend fun getNotes() = noteService.getNotes()
+    fun getNotes(): MutableLiveData<Resource<List<PublishedNote>>> {
+        val liveData = MutableLiveData<Resource<List<PublishedNote>>>()
+        refreshNotes(liveData)
+        return liveData
+    }
 
-    suspend fun createNote(note: Note) = noteService.createNote(note)
+    fun refreshNotes(liveData: MutableLiveData<Resource<List<PublishedNote>>>) {
+        liveData.postValue(Resource.loading(liveData.value?.data))
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                liveData.postValue(Resource.success(noteService.getNotes()))
+            } catch (e: Exception) {
+                liveData.postValue(Resource.error(e.localizedMessage, null))
+            }
+        }
+    }
 }
