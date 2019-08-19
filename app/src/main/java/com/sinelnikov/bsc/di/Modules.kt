@@ -20,12 +20,12 @@ val appModule = module {
     viewModel { NotesViewModel(get()) }
 }
 
-fun provideDefaultOkHttpClient(): OkHttpClient {
+private fun provideDefaultOkHttpClient(): OkHttpClient {
     return OkHttpClient.Builder()
         .build()
 }
 
-fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit {
+private fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit {
     return Retrofit.Builder()
         .baseUrl(baseUrl)
         .client(okHttpClient)
@@ -33,6 +33,6 @@ fun provideRetrofit(okHttpClient: OkHttpClient, baseUrl: String): Retrofit {
         .build()
 }
 
-fun provideNoteService(retrofit: Retrofit): NoteService = retrofit.create(NoteService::class.java)
+private fun provideNoteService(retrofit: Retrofit): NoteService = retrofit.create(NoteService::class.java)
 
-fun provideNoteRepository(noteService: NoteService): NoteRepository = NoteRepository(noteService)
+private fun provideNoteRepository(noteService: NoteService): NoteRepository = NoteRepository(noteService)

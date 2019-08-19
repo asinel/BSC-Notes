@@ -18,12 +18,28 @@
         app:onRefreshListener="@{() -> vm.onRefresh()}"
         tools:context=".ui.notes.NotesFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvNotes"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_note" />
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvNotes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_note" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="16dp"
+                android:onClick="@{(view) -> vm.onCreateNoteClick()}"
+                android:src="@drawable/ic_add_white_24dp"/>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

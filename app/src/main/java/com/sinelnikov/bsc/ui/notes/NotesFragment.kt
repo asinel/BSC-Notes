@@ -6,9 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
+import com.sinelnikov.bsc.R
 
 import com.sinelnikov.bsc.databinding.FragmentNotesBinding
+import com.sinelnikov.bsc.model.PublishedNote
 import com.sinelnikov.bsc.model.Status
 import kotlinx.android.synthetic.main.fragment_notes.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,11 +33,19 @@ class NotesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvNotes.adapter = notesAdapter
-        notesViewModel.liveData.observe(this, Observer { resource ->
-            when(resource.status) {
-                Status.SUCCESS -> notesAdapter.setNotes(resource.data!!)
-                Status.ERROR -> Snackbar.make(view, resource.message!!, Snackbar.LENGTH_SHORT).show()
+        notesViewModel.liveData.observe(this, Observer {
+            when(it.status) {
+                Status.SUCCESS -> notesAdapter.setNotes(it.data!!)
+                Status.ERROR -> Snackbar.make(view, it.message!!, Snackbar.LENGTH_SHORT).show()
                 else -> { }
+            }
+        })
+        notesViewModel.navigationLiveData.observe(this, Observer { event ->
+            event.getContentIfNotHandled()?.let {
+                if (it.resId == R.id.noteFragment) {
+                    val action = NotesFragmentDirections.actionNotesFragmentToNoteFragment(it.data as? PublishedNote)
+                    findNavController().navigate(action)
+                }
             }
         })
     }

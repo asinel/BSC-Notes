@@ -5,5 +5,13 @@
             app:startDestination="@id/notesFragment">
 
     <fragment android:id="@+id/notesFragment" android:name="com.sinelnikov.bsc.ui.notes.NotesFragment"
-              android:label="fragment_notes" tools:layout="@layout/fragment_notes"/>
+              android:label="fragment_notes" tools:layout="@layout/fragment_notes">
+        <action android:id="@+id/action_notesFragment_to_noteFragment" app:destination="@id/noteFragment"
+                app:popUpTo="@+id/notesFragment"/>
+    </fragment>
+    <fragment android:id="@+id/noteFragment" android:name="com.sinelnikov.bsc.ui.note.NoteFragment"
+              android:label="fragment_note" tools:layout="@layout/fragment_note">
+        <argument android:name="note" app:argType="com.sinelnikov.bsc.model.PublishedNote" app:nullable="true"
+                  android:defaultValue="@null"/>
+    </fragment>
 </navigation>
