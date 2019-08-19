@@ -38,5 +38,12 @@ class NoteFragment : Fragment() {
                 else -> { }
             }
         })
+        noteViewModel.deleteLiveData.observe(this, Observer {
+            when(it.status) {
+                Status.SUCCESS -> Snackbar.make(view, R.string.deleted, Snackbar.LENGTH_SHORT).show()
+                Status.ERROR -> Snackbar.make(view, it.message!!, Snackbar.LENGTH_SHORT).show()
+                else -> { }
+            }
+        })
     }
 }

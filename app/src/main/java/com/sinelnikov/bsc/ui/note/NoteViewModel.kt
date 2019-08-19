@@ -10,6 +10,7 @@ class NoteViewModel(private val noteRepository: NoteRepository) : ViewModel() {
 
     val text = MutableLiveData<String>()
     val liveData = MutableLiveData<Resource<PublishedNote>>()
+    val deleteLiveData = MutableLiveData<Resource<Nothing>>()
 
     fun init(args: NoteFragmentArgs) {
         if (args.note != null) {
@@ -23,6 +24,12 @@ class NoteViewModel(private val noteRepository: NoteRepository) : ViewModel() {
             noteRepository.createNote(text.value?:"", liveData)
         } else {
             noteRepository.updateNote(text.value?:"", liveData)
+        }
+    }
+
+    fun deleteNote() {
+        if (liveData.value?.data != null) {
+            noteRepository.deleteNote(liveData.value!!.data!!.id, deleteLiveData)
         }
     }
 }

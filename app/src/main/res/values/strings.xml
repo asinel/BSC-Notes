@@ -2,5 +2,6 @@
     <string name="app_name">BSC Notes</string>
 
     <string name="success">Success</string>
+    <string name="deleted">Deleted</string>
 
 </resources>

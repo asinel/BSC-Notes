@@ -46,4 +46,16 @@ class NoteRepository(private val noteService: NoteService) {
             }
         }
     }
+
+    fun deleteNote(id: Int, liveData: MutableLiveData<Resource<Nothing>>) {
+        liveData.postValue(Resource.loading(null))
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                noteService.removeNote(id.toString())
+                liveData.postValue(Resource.success(null))
+            } catch (e: Exception) {
+                liveData.postValue(Resource.error(e.localizedMessage, null))
+            }
+        }
+    }
 }
