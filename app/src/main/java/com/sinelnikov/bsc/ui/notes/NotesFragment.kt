@@ -49,4 +49,10 @@ class NotesFragment : Fragment() {
             }
         })
     }
+
+    override fun onResume() {
+        super.onResume()
+        //TODO: update in store and VM, without refresh
+        notesViewModel.onRefresh()
+    }
 }
