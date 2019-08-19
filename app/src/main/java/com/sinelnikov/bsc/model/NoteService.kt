@@ -15,8 +15,8 @@ interface NoteService {
     suspend fun createNote(@Body note: Note): PublishedNote
 
     @PUT("notes/{id}")
-    fun updateNote(@Path("id") id: String, @Body note: Note): PublishedNote
+    suspend fun updateNote(@Path("id") id: String, @Body note: Note): PublishedNote
 
     @DELETE("notes/{id}")
-    fun removeNote(@Path("id") id: String): Response<Any>
+    suspend fun removeNote(@Path("id") id: String): Response<Any>
 }

@@ -8,7 +8,7 @@ import com.sinelnikov.bsc.model.PublishedNote
 import com.sinelnikov.bsc.util.Event
 import com.sinelnikov.bsc.util.NavigationTransaction
 
-class NotesViewModel(private val noteRepository: NoteRepository) : ViewModel() {
+class NotesViewModel(private val noteRepository: NoteRepository) : ViewModel(), NotesAdapter.OnNoteClickListener {
 
     val liveData = noteRepository.getNotes()
     val navigationLiveData = MutableLiveData<Event<NavigationTransaction<Any>>>()
@@ -22,8 +22,7 @@ class NotesViewModel(private val noteRepository: NoteRepository) : ViewModel() {
         navigationLiveData.postValue(Event(NavigationTransaction(R.id.noteFragment, null)))
     }
 
-    fun onNoteClick(note: PublishedNote) {
+    override fun onNoteClicked(note: PublishedNote) {
         navigationLiveData.postValue(Event(NavigationTransaction(R.id.noteFragment, note)))
     }
-
 }

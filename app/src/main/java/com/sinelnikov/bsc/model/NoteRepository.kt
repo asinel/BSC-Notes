@@ -34,4 +34,16 @@ class NoteRepository(private val noteService: NoteService) {
             }
         }
     }
+
+    fun updateNote(newText: String, liveData: MutableLiveData<Resource<PublishedNote>>) {
+        val note = liveData.value?.data!!
+        liveData.postValue(Resource.loading(liveData.value?.data))
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                liveData.postValue(Resource.success(noteService.updateNote(note.id.toString(), Note(newText))))
+            } catch (e: Exception) {
+                liveData.postValue(Resource.error(e.localizedMessage, note))
+            }
+        }
+    }
 }

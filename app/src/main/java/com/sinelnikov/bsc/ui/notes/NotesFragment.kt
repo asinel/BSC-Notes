@@ -20,7 +20,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class NotesFragment : Fragment() {
 
     private val notesViewModel by viewModel<NotesViewModel>()
-    private val notesAdapter = NotesAdapter(listOf())
+    private val notesAdapter: NotesAdapter by lazy { NotesAdapter(listOf(), notesViewModel) }
     private lateinit var binding : FragmentNotesBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

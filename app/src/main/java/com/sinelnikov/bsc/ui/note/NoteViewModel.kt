@@ -11,9 +11,18 @@ class NoteViewModel(private val noteRepository: NoteRepository) : ViewModel() {
     val text = MutableLiveData<String>()
     val liveData = MutableLiveData<Resource<PublishedNote>>()
 
+    fun init(args: NoteFragmentArgs) {
+        if (args.note != null) {
+            text.value = args.note.title
+            liveData.value = Resource.init(args.note)
+        }
+    }
+
     fun publishNote() {
         if (liveData.value?.data == null) {
             noteRepository.createNote(text.value?:"", liveData)
+        } else {
+            noteRepository.updateNote(text.value?:"", liveData)
         }
     }
 }
