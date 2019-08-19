@@ -12,7 +12,7 @@ interface NoteService {
     suspend fun getNote(@Path("id") id: String): PublishedNote
 
     @POST("notes")
-    fun createNote(@Body note: Note): PublishedNote
+    suspend fun createNote(@Body note: Note): PublishedNote
 
     @PUT("notes/{id}")
     fun updateNote(@Path("id") id: String, @Body note: Note): PublishedNote

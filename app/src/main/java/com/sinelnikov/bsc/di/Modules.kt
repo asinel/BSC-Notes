@@ -2,6 +2,7 @@ package com.sinelnikov.bsc.di
 
 import com.sinelnikov.bsc.model.NoteRepository
 import com.sinelnikov.bsc.model.NoteService
+import com.sinelnikov.bsc.ui.note.NoteViewModel
 import com.sinelnikov.bsc.ui.notes.NotesViewModel
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -18,6 +19,7 @@ val networkModule = module {
 val appModule = module {
     single { provideNoteRepository(get()) }
     viewModel { NotesViewModel(get()) }
+    viewModel { NoteViewModel(get()) }
 }
 
 private fun provideDefaultOkHttpClient(): OkHttpClient {

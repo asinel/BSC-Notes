@@ -19,7 +19,18 @@ class NoteRepository(private val noteService: NoteService) {
             try {
                 liveData.postValue(Resource.success(noteService.getNotes()))
             } catch (e: Exception) {
-                liveData.postValue(Resource.error(e.localizedMessage, null))
+                liveData.postValue(Resource.error(e.localizedMessage, liveData.value?.data))
+            }
+        }
+    }
+
+    fun createNote(text: String, liveData: MutableLiveData<Resource<PublishedNote>>) {
+        liveData.postValue(Resource.loading(liveData.value?.data))
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                liveData.postValue(Resource.success(noteService.createNote(Note(text))))
+            } catch (e: Exception) {
+                liveData.postValue(Resource.error(e.localizedMessage, liveData.value?.data))
             }
         }
     }
