@@ -40,7 +40,7 @@ class NoteRepository(private val noteService: NoteService) {
         liveData.postValue(Resource.loading(liveData.value?.data))
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                liveData.postValue(Resource.success(noteService.updateNote(note.id.toString(), Note(newText))))
+                liveData.postValue(Resource.success(noteService.updateNote(note.id, Note(newText))))
             } catch (e: Exception) {
                 liveData.postValue(Resource.error(e.localizedMessage, note))
             }
@@ -51,7 +51,7 @@ class NoteRepository(private val noteService: NoteService) {
         liveData.postValue(Resource.loading(null))
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                noteService.removeNote(id.toString())
+                noteService.removeNote(id)
                 liveData.postValue(Resource.success(null))
             } catch (e: Exception) {
                 liveData.postValue(Resource.error(e.localizedMessage, null))
