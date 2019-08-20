@@ -6,6 +6,8 @@ import com.sinelnikov.bsc.model.NoteService
 import com.sinelnikov.bsc.model.NoteServiceImpl
 import com.sinelnikov.bsc.ui.note.NoteViewModel
 import com.sinelnikov.bsc.ui.notes.NotesViewModel
+import com.sinelnikov.bsc.util.CoroutineContextProvider
+import com.sinelnikov.bsc.util.TestContextProvider
 import okhttp3.OkHttpClient
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -19,9 +21,15 @@ val networkModule = module {
 }
 
 val appModule = module {
-    single { provideNoteRepository(get()) }
+    single { CoroutineContextProvider() }
+    single { provideNoteRepository(get(), get()) }
     viewModel { NotesViewModel(get()) }
     viewModel { NoteViewModel(get()) }
+}
+
+val testModule = module {
+    single { NoteServiceImpl() as NoteService }
+    single { provideNoteRepository(get(), TestContextProvider()) }
 }
 
 private fun provideDefaultOkHttpClient(): OkHttpClient {
@@ -45,4 +53,4 @@ private fun provideNoteService(retrofit: Retrofit): NoteService {
     }
 }
 
-private fun provideNoteRepository(noteService: NoteService): NoteRepository = NoteRepository(noteService)
+private fun provideNoteRepository(noteService: NoteService, contextPool: CoroutineContextProvider): NoteRepository = NoteRepository(noteService, contextPool)
